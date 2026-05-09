@@ -164,8 +164,7 @@ function computeDimensionScore(d: DimensionResult): number | null {
   if (tn === 0) return Math.round((100 * mm) / tm);
 
   const numerator = MUST_HAVE_WEIGHT * (mm / tm) + NICE_WEIGHT * (mn / tn);
-  const denom = MUST_HAVE_WEIGHT + NICE_WEIGHT;
-  return Math.round((100 * numerator) / denom);
+  return Math.round(100 * numerator);
 }
 
 /**

@@ -33,3 +33,5 @@ export const ALIAS_MAP: Record<string, string> = {
     "node-js": "node",
     "react-js": "react",
 };
+
+//react" versus "react-native"
