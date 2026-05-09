@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+.vite/
+coverage/
+CLAUDE.md
+
+# User-generated state — built by chat, not part of the repo.
+data/profile.json
+data/matches/*
+!data/matches/.gitkeep
