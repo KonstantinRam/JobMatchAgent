@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { buildExtractJobPrompt } from "../llm/prompts/extractJob.js";
 import type { JobInput, JobPosting, LLMProvider } from "./types.js";
+import {normalizeSkillToken} from "./skillNormalization.js";
 
 const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -46,7 +47,7 @@ const requirementSchema = z.discriminatedUnion("matchability", [
   softRequirementSchema,
   unmatchableRequirementSchema,
 ]);
-
+//TODO: To be sure we send LLM canonical forms via prompt.
 export const JobPostingSchema = z
   .object({
     title: z.string(),
@@ -71,27 +72,6 @@ export const JobPostingSchema = z
     });
   });
 
-/**
- * Stage 1 of the analyze pipeline.
- *
- * Takes a raw JobInput (PDF bytes, image bytes, or plain text) and produces
- * a structured JobPosting. The intermediate is inspectable and reusable —
- * the matcher takes the JobPosting, not the original bytes.
- *
- * The LLM's job here is EXTRACTION + CATEGORIZATION + NORMALIZATION:
- *   - Extract responsibilities, requirements, tone.
- *   - For each requirement, decide its dimension and hardness.
- *   - For each requirement, decide its matchability:
- *       "tokenizable" → emit canonical skillTokens + yearsRequired (or null)
- *       "soft"        → leave skillTokens / yearsRequired empty
- *       "unmatchable" → leave them empty; this requirement is surfaced for
- *                       human review and excluded from scoring
- *   - Assign a stable id per requirement (req_001, req_002, …).
- *
- * The LLM does NOT score, judge, or weight anything here.
- *
- * Pure function of (llm, input) → JobPosting.
- */
 export async function extractJob(
   llm: LLMProvider,
   input: JobInput,
@@ -102,6 +82,8 @@ export async function extractJob(
     messages,
     temperature: 0.2,
   });
+
+
 
   const result = JobPostingSchema.safeParse(raw);
   if (!result.success) {
@@ -118,5 +100,13 @@ export async function extractJob(
   if (input.kind === "text") {
     posting.rawText = input.content;
   }
+
+  // cleaning up after the LLM,
+  for (const req of posting.requirements) {
+    if (req.skillTokens) {
+      req.skillTokens = [...new Set(req.skillTokens.map(normalizeSkillToken))];
+    }
+  }
+
   return posting;
 }

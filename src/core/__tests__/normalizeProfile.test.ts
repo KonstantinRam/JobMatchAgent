@@ -1,10 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
-  canonicalizeSkill,
   normalizeProfile,
 } from "../normalizeProfile.js";
 import type { BackgroundProfile } from "../types.js";
+
 
 const baseProfile: BackgroundProfile = {
   name: "Test User",
@@ -16,59 +16,7 @@ const baseProfile: BackgroundProfile = {
   education: [],
 };
 
-// ---------- canonicalizeSkill ---------------------------------------------
 
-test("canonicalizeSkill: 'TypeScript' → 'typescript'", () => {
-  assert.equal(canonicalizeSkill("TypeScript"), "typescript");
-});
-
-test("canonicalizeSkill: 'React.js' → 'react'", () => {
-  assert.equal(canonicalizeSkill("React.js"), "react");
-});
-
-test("canonicalizeSkill: 'Node.js' → 'node' (collides with bare 'node' — accepted)", () => {
-  assert.equal(canonicalizeSkill("Node.js"), "node");
-});
-
-test("canonicalizeSkill: 'JS' → 'javascript' via ALIAS_MAP", () => {
-  assert.equal(canonicalizeSkill("JS"), "javascript");
-});
-
-test("canonicalizeSkill: 'Postgres' → 'postgresql' via ALIAS_MAP", () => {
-  assert.equal(canonicalizeSkill("Postgres"), "postgresql");
-});
-
-test("canonicalizeSkill: 'Data Engineering' → 'data-engineering'", () => {
-  assert.equal(canonicalizeSkill("Data Engineering"), "data-engineering");
-});
-
-test("canonicalizeSkill trims surrounding whitespace", () => {
-  assert.equal(canonicalizeSkill("  Python  "), "python");
-});
-
-test("canonicalizeSkill: 'K8s' → 'kubernetes' via ALIAS_MAP", () => {
-  assert.equal(canonicalizeSkill("K8s"), "kubernetes");
-});
-
-test("canonicalizeSkill is idempotent: f(f(x)) === f(x)", () => {
-  const inputs = [
-    "TypeScript",
-    "React.js",
-    "Node.js",
-    "JS",
-    "Postgres",
-    "Data Engineering",
-    "  Python  ",
-    "K8s",
-    "kebab-case-thing",
-    "PostgreSQL",
-  ];
-  for (const x of inputs) {
-    const once = canonicalizeSkill(x);
-    const twice = canonicalizeSkill(once);
-    assert.equal(twice, once, `not idempotent for input: ${JSON.stringify(x)}`);
-  }
-});
 
 // ---------- normalizeProfile ----------------------------------------------
 
