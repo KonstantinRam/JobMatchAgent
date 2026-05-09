@@ -156,15 +156,22 @@ function emptyDimensionResult(dimension: DimensionKey): DimensionResult {
 function computeDimensionScore(d: DimensionResult): number | null {
   const tm = d.totalMustHaves;
   const mm = d.matchedMustHaves;
+
   const tn = d.totalNiceToHaves;
   const mn = d.matchedNiceToHaves;
 
+  //TODO: what if no tms?
   if (tm === 0 && tn === 0) return null;
-  if (tm === 0) return Math.round((100 * mn) / tn);
-  if (tn === 0) return Math.round((100 * mm) / tm);
+  if (tm === 0) return Math.round((100 * mn) / tn);  // no must-haves to penalize
 
-  const numerator = MUST_HAVE_WEIGHT * (mm / tm) + NICE_WEIGHT * (mn / tn);
-  return Math.round(100 * numerator);
+  const mustH_cov = mm / tm;
+  const penaltyFactor = 0.5 + 0.5 * mustH_cov;
+
+  const base = tn === 0
+      ? mustH_cov                                            // only must-haves
+      : MUST_HAVE_WEIGHT * mustH_cov + NICE_WEIGHT * (mn / tn);
+
+  return Math.round(100 * base * penaltyFactor);
 }
 
 /**

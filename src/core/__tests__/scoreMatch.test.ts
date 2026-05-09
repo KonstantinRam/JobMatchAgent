@@ -94,7 +94,7 @@ test("rollUpDimensions: throws naming the unknown requirementId", () => {
   assert.throws(() => rollUpDimensions(jp, matches), /ghost/);
 });
 
-test("rollUpDimensions: 2 must-haves both matched → score 100", () => {
+test("rollUpDimensions: 2 must-haves both matched => score 100", () => {
   const jp = posting([
     req("a", { dimension: "technical_skills", hardness: "must_have" }),
     req("b", { dimension: "technical_skills", hardness: "must_have" }),
@@ -145,7 +145,7 @@ test("rollUpDimensions: only nice-to-haves (1 of 2 matched) → score 50", () =>
   assert.equal(d.score, 50);
 });
 
-test("rollUpDimensions: only must-haves (3 of 4 matched) → score 75", () => {
+test("rollUpDimensions: only must-haves (3 of 4 matched) => score 66", () => {
   const jp = posting([
     req("a", { hardness: "must_have" }),
     req("b", { hardness: "must_have" }),
@@ -162,7 +162,7 @@ test("rollUpDimensions: only must-haves (3 of 4 matched) → score 75", () => {
   const d = findDim(results, "technical_skills");
   assert.equal(d.totalMustHaves, 4);
   assert.equal(d.matchedMustHaves, 3);
-  assert.equal(d.score, 75);
+  assert.equal(d.score, 66);
 });
 
 test("rollUpDimensions: soft uncertain match → uncertainCount 1, score ignores it", () => {
@@ -265,7 +265,7 @@ test("deriveOverallScore: all null → 0", () => {
 
 // ---------- computeFlaggedForReview --------------------------------------
 
-test("computeFlaggedForReview: overallScore = 49 → flagged", () => {
+test("computeFlaggedForReview: overallScore = 49 => flagged", () => {
   assert.equal(
     computeFlaggedForReview({
       overallScore: 49,
@@ -277,7 +277,7 @@ test("computeFlaggedForReview: overallScore = 49 → flagged", () => {
   );
 });
 
-test("computeFlaggedForReview: clean state at score 80 → not flagged", () => {
+test("computeFlaggedForReview: clean state at score 80 => not flagged", () => {
   const dims: DimensionResult[] = [
     emptyDim("technical_skills", {
       totalMustHaves: 2,
@@ -307,7 +307,7 @@ test("computeFlaggedForReview: clean state at score 80 → not flagged", () => {
   );
 });
 
-test("computeFlaggedForReview: unmet must-have anywhere → flagged", () => {
+test("computeFlaggedForReview: unmet must-have anywhere => flagged", () => {
   const dims: DimensionResult[] = [
     emptyDim("technical_skills", {
       totalMustHaves: 2,
@@ -329,7 +329,7 @@ test("computeFlaggedForReview: unmet must-have anywhere → flagged", () => {
   );
 });
 
-test("computeFlaggedForReview: uncertainCount makes ratio >= 0.25 → flagged", () => {
+test("computeFlaggedForReview: uncertainCount makes ratio >= 0.25 => flagged", () => {
   // 1 uncertain + 3 scorable = 1/4 = 0.25
   const dims: DimensionResult[] = [
     emptyDim("technical_skills", {
@@ -353,7 +353,7 @@ test("computeFlaggedForReview: uncertainCount makes ratio >= 0.25 → flagged", 
   );
 });
 
-test("computeFlaggedForReview: an unmatchable must-have requirement → flagged", () => {
+test("computeFlaggedForReview: an unmatchable must-have requirement => flagged", () => {
   const dims: DimensionResult[] = [
     emptyDim("technical_skills", {
       totalMustHaves: 1,
