@@ -4,7 +4,6 @@ import type {
   DimensionResult,
   JobRequirement,
   MatchAssessment,
-  MatcherKind,
   MatchVerdict,
   RequirementMatch,
 } from "../../core/types.js";
@@ -187,7 +186,6 @@ function RequirementRow(props: {
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px]">
             <VerdictBadge verdict={match.verdict} />
-            <MatcherBadge matcher={match.matcher} />
             {requirement && (
               <span
                 className={
@@ -257,19 +255,6 @@ function VerdictBadge({ verdict }: { verdict: MatchVerdict }) {
   );
 }
 
-function MatcherBadge({ matcher }: { matcher: MatcherKind }) {
-  const label =
-    matcher === "tokenizer"
-      ? "tokenizer"
-      : matcher === "soft_llm"
-        ? "soft LLM"
-        : "skipped";
-  return (
-    <span className="rounded bg-neutral-100 px-1.5 py-0.5 text-neutral-600">
-      {label}
-    </span>
-  );
-}
 
 function Disclosure(props: {
   title: string;
