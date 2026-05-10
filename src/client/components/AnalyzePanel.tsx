@@ -334,9 +334,10 @@ function ScorePill({ score }: { score: number }) {
         ? "bg-amber-100 text-amber-900"
         : "bg-red-100 text-red-800";
   return (
-    <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${color}`}>
-    {score} / 100
-    </span>
+      <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${color}`}>
+        {score}
+        <span className="ml-1 text-xs font-normal opacity-60">/ 100</span>
+      </span>
   );
 }
 
