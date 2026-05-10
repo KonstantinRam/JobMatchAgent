@@ -201,14 +201,6 @@ function RequirementRow(props: {
         </div>
       </div>
 
-      {match.evidence.length > 0 && (
-        <ul className="mt-2 list-disc space-y-0.5 pl-5 text-xs text-neutral-500">
-          {match.evidence.map((e, i) => (
-            <li key={i}>{e}</li>
-          ))}
-        </ul>
-      )}
-
       {match.matcher === "soft_llm" && match.reasoning && (
         <div className="mt-1 text-xs italic text-neutral-600">
           {match.reasoning}
