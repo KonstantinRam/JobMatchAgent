@@ -69,7 +69,7 @@ test("assessMatch: end-to-end with tokenizable + soft + unmatchable requirements
   };
 
   const llm = new FakeLLMProvider((opts: LLMCallOptions) => {
-    if (opts.system?.startsWith("You write a short triage note")) {
+    if (opts.system?.startsWith("You write a short note for a job seeker")) {
       return "Triage note from LLM.";
     }
     return softMatchResponse;

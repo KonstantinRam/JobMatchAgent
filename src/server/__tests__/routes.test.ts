@@ -132,7 +132,7 @@ const VALID_JOB_POSTING: JobPosting = {
 
 function analyzeDispatcher(opts: LLMCallOptions): unknown {
   const sys = opts.system ?? "";
-  if (sys.startsWith("You write a short triage note")) {
+  if (sys.startsWith("You write a short note for a job seeker")) {
     return "Triage note.";
   }
   if (sys.startsWith("You assess ONE soft job requirement")) {
