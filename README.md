@@ -1,4 +1,6 @@
 ## How to run:
+create .env file with CLaude api-key.
+
 npm run build  
 npm run dev => agent front opens at http://localhost:5173/  
 
@@ -20,7 +22,7 @@ Prompt injection protection, job warnings (potential scam jobs, red flags, missi
 Comprehensive test suit => test coverage exists on proto level.
 
 ## How separation is to be implemented: 
-For dependencies => interfaces, for example LLM provider with standard interface, so we can swap models and API in dev or use mock LLM for tests. (No DI container for this prototype, but not a bad idea for prod.).  
+For dependencies => interfaces, for example LLM provider with standard interface, so we can swap models and API in dev or use mock LLM for tests. LLM provider is a simple interface instead of big 3rd party lib intentionally. (No DI container for this prototype, but not a bad idea for prod.).  
 For interaction with the outside world (“PNG, TEXT, PDF”) => Anti-Corruption Layer. Incoming data transformed into unified form (both from standpoint of form and semantic corruption.). Simplified in prototype.  
 For module interaction => blackboard pattern. Both user and job profiles are blackboards.
 
