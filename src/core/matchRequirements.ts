@@ -63,22 +63,6 @@ export async function matchRequirements(
 /**
  * Deterministic tokenizer match.
  *
- * Rules:
- *   - The requirement carries skillTokens[] and yearsRequired (number | null).
- *   - For ALL tokens in skillTokens, the claimSet must have a SkillClaim
- *     with a matching skillToken. If any token has no claim, the match is
- *     "unmatched" (and the reason names the missing token).
- *   - When all tokens are present:
- *       * If yearsRequired is null: matched, evidence = collected refs.
- *       * If yearsRequired is a number: every contributing claim's years
- *         must be >= yearsRequired. If even one falls short, the verdict
- *         is "unmatched" (with a reason naming the shortfall).
- *   - evidence: union of evidenceRefs from all contributing SkillClaims.
- *   - matcher: "tokenizer" always.
- *
- * Throws if the requirement is missing skillTokens (this should have been
- * caught at extraction; if it's hitting here, the JobPosting validator
- * failed). Don't try to recover — surface the bug.
  */
 export function tokenizerMatch(
   req: JobRequirement,

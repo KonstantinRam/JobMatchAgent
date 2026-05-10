@@ -17,12 +17,12 @@ Return ONLY a single JSON object. No prose, no markdown fences:
 }
 
 Verdict rules:
-- "matched"   — at least one bullet provides concrete evidence the
+- "matched"   : at least one bullet provides concrete evidence the
                 requirement is satisfied. Cite the source refs of those
                 bullets in "evidence".
-- "unmatched" — no bullet supports OR contradicts the requirement, and
+- "unmatched" : no bullet supports OR contradicts the requirement, and
                 nothing in the candidate's domain implicitly suggests it.
-- "uncertain" — bullets neither confirm nor refute. This is a legitimate
+- "uncertain" : bullets neither confirm nor refute. This is a legitimate
                 answer. Do NOT guess; pick "uncertain" when evidence is
                 thin.
 
