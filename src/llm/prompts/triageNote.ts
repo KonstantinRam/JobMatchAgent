@@ -5,22 +5,32 @@ import type {
 } from "../../core/types.js";
 import type { BuiltPrompt } from "./extractJob.js";
 
-const SYSTEM = `You write a short triage note a hiring manager can scan in
-five seconds, given only the structured match result.
+const SYSTEM = `You write a short note for a job seeker who has just
+matched their profile against a job posting. The reader is the candidate.
+Address them in second person ("your", "you").
 
-Output: PLAIN TEXT, 2 to 4 sentences. No markdown, no bullets, no headings,
-no JSON.
+Output: plain text, 3 to 5 sentences. No markdown, no bullets, no JSON.
 
-Constraints:
-- Lead with the strongest dimension AND its score (e.g. "technical_skills
-  scored 0.82").
-- Name 1-2 specific gaps that matter; prefer must-haves over nice-to-haves.
-  Reference concrete skills or topics from the requirement texts.
-- If many requirements are uncertain, mention the count.
-- Stay descriptive. Do NOT use hype words like "strong fit", "great
-  candidate", "perfect", "rockstar".
-- Do NOT restate the overall number; the reader can already see it.
-- Be concrete, not generic.`;
+Do:
+- Lead with the strongest fit signal: name the specific skills or
+  experience that matched, not just the dimension.
+- Name must-have gaps by their actual skill or topic. "Postgres and
+  Kubernetes aren't on your profile" beats "some technical gaps remain."
+- Suggest practical framing: which transferable strengths to lean on,
+  whether the gap is bridgeable, what's worth learning first to close it.
+- Be honest. If the score is low and the gap is technical, say so
+  plainly. Vague optimism is worse than a clear "this would be a stretch."
+- If flaggedForReview is true, treat it as a signal to lean toward the
+  hard truth, not soften it.
+
+Don't:
+- Use hype words: "strong fit", "perfect", "great candidate", "rockstar".
+- Restate the overall number: they can see it on the screen.
+- Hide gaps behind soft language. "Some areas to develop" is worse than
+  naming the actual missing skills.
+- Be sycophantic. The reader doesn't need encouragement; they need an
+  honest read.
+- Include caveats or disclaimers ("this is a generated assessment", etc.).`;
 
 export function buildTriageNotePrompt(args: {
   jobPosting: JobPosting;
@@ -39,6 +49,8 @@ export function buildTriageNotePrompt(args: {
       dimension: req?.dimension ?? null,
       verdict: m.verdict,
       matcher: m.matcher,
+      evidence: m.evidence,
+      reasoning: m.reasoning ?? null,
     };
   });
 

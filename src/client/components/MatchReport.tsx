@@ -233,7 +233,7 @@ function ScoreBadge({
   score: number | null;
   size: "sm" | "lg";
 }) {
-  const text = score === null ? "n/a" : String(score);
+  const text = score === null ? "n/a" : `${score} / 100`;
   const color =
     score === null
       ? "bg-neutral-200 text-neutral-600"

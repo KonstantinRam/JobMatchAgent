@@ -335,7 +335,7 @@ function ScorePill({ score }: { score: number }) {
         : "bg-red-100 text-red-800";
   return (
     <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${color}`}>
-      {score}
+    {score} / 100
     </span>
   );
 }

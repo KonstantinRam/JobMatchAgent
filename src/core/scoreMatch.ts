@@ -24,37 +24,29 @@ export const ALL_DIMENSIONS: DimensionKey[] = [
 /**
  * Per-dimension weights for combining into the overall score. Sum to 1.0.
  *
- * Rationale: technical_skills weighted highest because for engineering roles
- * the bar is capability-first; role_fit second because culture/role shape is
- * a known make-or-break; experience_level and domain knowledge are softer
- * signals.
+ * The score is a *coverage* measurement: verifiable fit on hard criteria.
+ * Soft fit signals (culture, working style, vibes) belong in the
+ * recommendation text, not the headline number. role_fit is weighted
+ * lowest: it's the dimension where "matched" tells you least about
+ * actual capability.
  *
- * Tweak in one place. If you change these, mention it in the writeup.
+ * technical_skills: capability-first hiring; the bar everything else
+ *                   modifies.
+ * experience_level: seniority/scope shapes role definition; misses here
+ *                   mean wrong-shape candidacy."
+ * domain_knowledge: usually learnable on the job; matters less than above.
+ * role_fit:         soft signals; treated as advice input, not score input. Used for advice.
  */
 export const DIMENSION_WEIGHTS: Record<DimensionKey, number> = {
-  technical_skills: 0.4,
-  role_fit: 0.25,
-  experience_level: 0.2,
-  domain_knowledge: 0.15,
+  technical_skills: 0.40,
+  experience_level: 0.25,
+  domain_knowledge: 0.20,
+  role_fit:         0.15,
 };
 
 /**
  * Within a dimension, must-haves dominate the score. Nice-to-haves contribute
  * a smaller boost.
- *
- * Formula:
- *   if no scorable requirements in the dimension → score = null
- *   if no must-haves and only nice-to-haves → score = 100 * matched_nice / total_nice
- *   otherwise:
- *     score = 100 * (
- *       MUST_HAVE_WEIGHT * (matched_must / total_must)
- *       + NICE_WEIGHT    * (matched_nice / max(1, total_nice))   // 0 if no nice
- *     ) / (MUST_HAVE_WEIGHT + (total_nice > 0 ? NICE_WEIGHT : 0))
- *
- * The denominator handles "no nice-to-haves" without inflating must-have
- * coverage. This matters because dropping the nice-to-have weight when
- * there are none means must-have coverage = full score (correct), not
- * must-have coverage * 0.7 (wrong).
  */
 export const MUST_HAVE_WEIGHT = 0.7;
 export const NICE_WEIGHT = 0.3;

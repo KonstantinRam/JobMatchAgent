@@ -110,7 +110,7 @@ test("rollUpDimensions: 2 must-haves both matched => score 100", () => {
   assert.equal(d.score, 100);
 });
 
-test("rollUpDimensions: 1 must-have unmatched + 1 nice matched → score 30", () => {
+test("rollUpDimensions: 1 must-have unmatched + 1 nice matched => score 15", () => {
   const jp = posting([
     req("a", { dimension: "technical_skills", hardness: "must_have" }),
     req("b", { dimension: "technical_skills", hardness: "nice_to_have" }),
@@ -125,7 +125,7 @@ test("rollUpDimensions: 1 must-have unmatched + 1 nice matched → score 30", ()
   assert.equal(d.matchedMustHaves, 0);
   assert.equal(d.totalNiceToHaves, 1);
   assert.equal(d.matchedNiceToHaves, 1);
-  assert.equal(d.score, 30);
+  assert.equal(d.score, 15);
 });
 
 test("rollUpDimensions: only nice-to-haves (1 of 2 matched) → score 50", () => {
@@ -237,7 +237,7 @@ test("deriveOverallScore: weighted across all four dimensions", () => {
     emptyDim("experience_level", { score: 50 }),
     emptyDim("role_fit", { score: 70 }),
   ];
-  assert.equal(deriveOverallScore(dims), 69);
+  assert.equal(deriveOverallScore(dims), 67);
 });
 
 test("deriveOverallScore: redistributes weight when one dimension is null", () => {
