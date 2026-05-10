@@ -46,11 +46,13 @@ Hardness rules:
 Matchability rules:
 - tokenizable: concrete skill OR a years-of-experience claim. Emit
   "skillTokens" AND "yearsRequired" (number or null).
-- soft: requires narrative judgment about prior work or character (e.g.
-  "comfortable owning ambiguous problems", "experience scaling teams").
-  Do NOT emit skillTokens or yearsRequired.
+- soft: requires narrative judgment, OR is a credential/education
+  requirement (degrees, certifications, named programs). Even a
+  superficially-concrete credential like "Bachelor's degree in CS" goes
+  here — it's checked against the candidate's education narrative, not
+  against the skill list.
 - unmatchable: cannot be assessed from a profile (e.g. "must love dogs",
-  "willing to travel 50%", "based in Berlin"). Excluded from scoring.
+  "based in Berlin"). Excluded from scoring.
 
 skillTokens normalization:
 - lowercase, kebab-case ("typescript", "react", "data-engineering").
@@ -90,6 +92,15 @@ Soft requirement:
   "id": "req_007",
   "text": "comfortable driving ambiguous, cross-team initiatives",
   "dimension": "role_fit",
+  "hardness": "must_have",
+  "matchability": "soft"
+}
+
+Credential requirement (also soft):
+{
+  "id": "req_009",
+  "text": "Bachelor's degree or equivalent practical experience",
+  "dimension": "experience_level",
   "hardness": "must_have",
   "matchability": "soft"
 }

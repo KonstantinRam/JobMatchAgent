@@ -94,7 +94,7 @@ export function MatchReport({ assessment }: Props) {
       {assessment.unscoredRequirements.length > 0 && (
         <section>
           <h4 className="mb-2 text-sm font-semibold text-neutral-800">
-            Unscored — needs human review
+            Unscored
           </h4>
           <ul className="space-y-1 rounded-md border border-neutral-200 bg-neutral-50 p-3 text-sm">
             {assessment.unscoredRequirements.map((r) => (

@@ -77,6 +77,13 @@ export function normalizeProfile(
     });
   });
 
+  profile.education.forEach((edu, i) => {
+    narrativeBullets.push({
+      text: `${edu.degree} in ${edu.field}, ${edu.institution} (${edu.endDate})`,
+      source: `education[${i}]`,
+    });
+  });
+
   return {
     skills: Array.from(skillsMap.values()),
     experienceTotals: { totalYearsProfessional },
