@@ -7,6 +7,9 @@ npm run dev => agent front opens at http://localhost:5173/
 Tests:
 npm run test
 
+<img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/f6a4da34-dd7a-458d-a194-3c297a8c187e" />
+
+
 ## Decisions for design:
 Clear separation of intent between modules: testability, maintainability, delivery speed cadence.  
 Matching is separated into non-deterministic (LLM) path (semantic, vague items) and deterministic algorithms working with normalized data (non-LLM).  
