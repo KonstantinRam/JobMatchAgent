@@ -102,9 +102,7 @@ export function MatchReport({ assessment }: Props) {
                 <span className="font-medium">{r.text}</span>
                 <span className="ml-2 text-xs text-neutral-500">
                   · {humanizeDimension(r.dimension)} ·{" "}
-                  {r.matchability === "unmatchable"
-                    ? "unmatchable"
-                    : r.matchability}
+                  {r.matchability === "unmatchable" ? "outside profile scope" : "uncertain"}
                 </span>
               </li>
             ))}
