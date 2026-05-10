@@ -281,11 +281,7 @@ export function AnalyzePanel(props: Props) {
                         <span className="text-sm font-medium text-neutral-900">
                           {s.jobTitle || "Untitled"}
                         </span>
-                        {s.flaggedForReview && (
-                          <span className="rounded bg-amber-100 px-1 py-0.5 text-[10px] text-amber-900">
-                            flagged
-                          </span>
-                        )}
+
                       </div>
                       <div className="text-[11px] text-neutral-500">
                         {s.company ?? "—"} · {formatDate(s.createdAt)}

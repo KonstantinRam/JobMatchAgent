@@ -48,11 +48,7 @@ export function MatchReport({ assessment }: Props) {
         </div>
         <div className="flex flex-col items-end gap-2">
           <ScoreBadge score={assessment.overallScore} size="lg" />
-          {assessment.flaggedForReview && (
-            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-900">
-              Flagged for review
-            </span>
-          )}
+
         </div>
       </header>
 
