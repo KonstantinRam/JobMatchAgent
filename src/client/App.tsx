@@ -56,7 +56,7 @@ export default function App() {
             Job Match Agent
           </h1>
           <p className="text-xs text-neutral-500">
-            Build your profile in chat. Analyze a posting. Review the fit.
+            Super Duper Job Match Agent!
           </p>
         </div>
       </header>
